@@ -72,31 +72,39 @@ static bool sortbyCond(const pair<int, int>& a,
 //------------------------------------------------------------------------------------------------------------------------------
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //-----------------------------------------------------------------------------------------------------------------------------
-
-void solve(){
-    
-    int n;
-    cin>>n;
-    int arr[n];
+int helper(vector<int> ans,vector<int> need,int q){
+    int n=ans.size();
+    vector<int> diff;
 
     for(int i=0;i<n;i++){
-        cin>>arr[i];
+        diff.push_back(need[i] - ans[i]);
     }
 
-    int odd=0;
-    if(arr[0]%2==1)odd++;
-    int sum=arr[0];
-    cout<<sum<<" ";
+    sort(diff.begin(),diff.end());
 
-    for(int i=1;i<n;i++){
-        sum+=arr[i];
-        if(arr[i]%2==1)odd++;
+    int cnt=0;
 
-        // if(odd%3==1)sum;
-        cout<<sum-odd/3-(odd%3==1)<<" ";
+    for(auto it:diff){
+        // if(q<=0) break;
+        if(it<=0){
+            cnt++;
+        }
+        else{
+            if((q-it)>=0){
+                cnt++;
+                q-=it;
+            }
+        }
     }
-    cout<<endl;
+
+    return cnt;
+}
+void solve(){
     
+    vector<int> ans={24,27,0};
+    vector<int> need={51,52,100};
+
+    cout<<helper(ans,need,200)<<endl;
 }
  
 int32_t main()
@@ -105,7 +113,7 @@ int32_t main()
     cin.tie(0), cout.tie(0);
  
     int t = 1;
-    cin >> t;
+    // cin >> t;
  
     for (int C = 1; C <= t; C++)
     {
